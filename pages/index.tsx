@@ -1,41 +1,60 @@
 import type { Character } from "types";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 
 import People from "components/People";
-import getCharacters from "api/fetchData";
+import Nav from "components/Nav";
+import LoadingMessage from "components/LoadingMessage";
+import ErrorMessage from "components/ErrorMessage";
+import { getCharacters } from "api/fetchData";
 
 export default function Home() {
-  const [people, setPeople] = useState<null | Character[]>(null);
+  const [people, setPeople] = useState<null | "Error" | Character[]>(null);
 
   useEffect(() => {
     getCharacters()
       .then((data) => setPeople(data))
-      .catch((e: unknown) => console.log(e));
+      .catch(() => setPeople("Error"));
   }, []);
 
-  console.log(people);
+  const getCharacterId = (url: string) => Number(url.split("/").slice(-2)[0]);
+
+  if (people === "Error") {
+    return (
+      <>
+        <Nav />
+        <div className="flex justify-center">
+          <ErrorMessage />
+        </div>
+      </>
+    );
+  }
 
   return (
-    <div className="space-y-4">
-      <nav className="flex h-[54px] items-center justify-center bg-[#121212] font-bold text-white">
-        <h1 className="text-[17px]">People of Star Wars</h1>
-      </nav>
+    <>
+      <Nav />
 
       {people ? (
         people.map((character) => (
-          <People
+          <Link
             key={character.name}
-            homeworld={character.homeworld}
-            name={character.name}
-            species={character.species}
-          />
+            href={`/character/${getCharacterId(character.url)}`}
+          >
+            <a>
+              <People
+                homeworld={character.homeworld}
+                name={character.name}
+                species={character.species}
+              />
+            </a>
+          </Link>
         ))
       ) : (
-        <div className="flex items-center justify-center gap-4">
-          <p className="text-[17px] font-bold text-[#828282]">Loading</p>
+        <div className="flex justify-center">
+          <LoadingMessage />
         </div>
       )}
-    </div>
+    </>
   );
 }
