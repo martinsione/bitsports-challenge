@@ -36,7 +36,7 @@ async function getSpecies(characters: Character[]) {
   return species;
 }
 
-export default async function getCharacters() {
+export async function getCharacters() {
   const people = await getPeople();
 
   return Promise.all([getHomeworld(people), getSpecies(people)])
@@ -48,4 +48,27 @@ export default async function getCharacters() {
       }))
     )
     .catch((err) => err);
+}
+
+async function getVehicle(vehicles: string[]) {
+  if (!vehicles.length) return [];
+  return Promise.all(
+    vehicles.map(async (vehicle: string) => {
+      const response = await fetch(vehicle);
+      const data = await response.json();
+      return data.name;
+    })
+  );
+}
+
+export async function getCharacter(id: number) {
+  try {
+    const response = await fetch(`http://swapi.dev/api/people/${id}/`);
+    const data = await response.json();
+    const vehicles = await getVehicle(data.vehicles);
+    data.vehicles = vehicles;
+    return data;
+  } catch (err) {
+    throw new Error("Error fetching people");
+  }
 }
