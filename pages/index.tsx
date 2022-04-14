@@ -4,10 +4,10 @@ import { useInfiniteQuery } from "react-query";
 import InfiniteScroll from "react-infinite-scroller";
 import Link from "next/link";
 
-import People from "components/People";
 import Nav from "components/Nav";
 import LoadingMessage from "components/LoadingMessage";
 import ErrorMessage from "components/ErrorMessage";
+import CharacterCard from "components/CharacterCard";
 import { getCharacters } from "api/fetchData";
 
 export default function Home() {
@@ -50,7 +50,7 @@ export default function Home() {
               href={`/character/${getCharacterId(character.url)}`}
             >
               <a>
-                <People
+                <CharacterCard
                   homeworld={character.homeworld}
                   name={character.name}
                   species={character.species}

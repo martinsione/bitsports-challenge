@@ -1,6 +1,6 @@
 import type { Character } from "../types";
 
-export default function People({ homeworld, name, species }: Character) {
+export default function CharacterCard({ homeworld, name, species }: Character) {
   return (
     <div className="ml-6 border-b">
       <div className="flex items-center justify-between border-b py-2">
