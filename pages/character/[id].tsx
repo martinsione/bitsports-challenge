@@ -27,7 +27,7 @@ export default function Character() {
       {character && (
         <div className="px-6">
           <div className="capitalize">
-            <p className="mt-6 text-[17px] font-bold text-[#333333]">
+            <p className="mt-6 text-[17px] font-bold text-[#333333] dark:text-gray-100">
               General Information
             </p>
             <CharacterDetailBadge
@@ -49,7 +49,9 @@ export default function Character() {
           </div>
           {!!character.vehicles.length && (
             <div className="mt-6 font-bold text-[#333333]">
-              <p className="text-[17px] font-bold text-[#333333]">Vehicles</p>
+              <p className="text-[17px] font-bold text-[#333333] dark:text-gray-100">
+                Vehicles
+              </p>
               {character.vehicles.map((vehicle: string) => (
                 <CharacterDetailBadge key={vehicle} label={vehicle} />
               ))}

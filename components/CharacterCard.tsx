@@ -2,10 +2,12 @@ import type { Character } from "../types";
 
 export default function CharacterCard({ homeworld, name, species }: Character) {
   return (
-    <div className="ml-6 border-b">
-      <div className="flex items-center justify-between border-b py-2">
+    <div className="ml-6 border-b dark:border-b-neutral-700">
+      <div className="flex items-center justify-between py-2">
         <div>
-          <h2 className="font-bold text-[#333333]">{name}</h2>
+          <h2 className="font-bold text-[#333333] dark:text-gray-100">
+            {name}
+          </h2>
           <p className="text-[#828282]">
             {species} from {homeworld}
           </p>

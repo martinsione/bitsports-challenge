@@ -12,7 +12,7 @@ export default function Document() {
           type="font/woff2"
         />
       </Head>
-      <body>
+      <body className="dark:bg-neutral-900">
         <Main />
         <NextScript />
       </body>
