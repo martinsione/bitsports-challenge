@@ -2,7 +2,7 @@ import type { Character } from "types";
 
 async function getPeople(page = 1) {
   try {
-    const response = await fetch(`http://swapi.dev/api/people?page=${page}`);
+    const response = await fetch(`https://swapi.dev/api/people?page=${page}`);
     const data = await response.json();
     return data;
   } catch (err) {
@@ -66,7 +66,7 @@ async function getVehicle(vehicles: string[]) {
 
 export async function getCharacter(id: number) {
   try {
-    const response = await fetch(`http://swapi.dev/api/people/${id}/`);
+    const response = await fetch(`https://swapi.dev/api/people/${id}/`);
     const data = await response.json();
     const vehicles = await getVehicle(data.vehicles);
     data.vehicles = vehicles;
