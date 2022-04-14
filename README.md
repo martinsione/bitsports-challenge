@@ -1,34 +1,40 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Bitsports challenge
 
-## Getting Started
+## Librerias/Tecnologías utilizadas
 
-First, run the development server:
+- Next.js
+- Typescript
+- TailwindCSS
+- Eslint
+- Prettier
+- react-infinite-scroller
+- react-query
+- jest
+- react testing library
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+## Features extra
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Soporte para dark/light mode
+- Test unitarios
+- Es responsive, con un approach mobile first y casi que mobile only (tiene max-width para legibilidad)
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Toma de decisiones
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+Se pedia un infinite scrolling asique decidí utilizar el componente react-infinite-scroller junto con react-query.
+Ventajas:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+- Cache incluida (out of the box)
+- Mejor manejo de errores (tiene posibilidad de setear varios retries)
+- Prefetching
+- Optimizaciones de performance
+- Garbage collection
+- Mejor legibilidad
+- Scroll infinito de manera muy sencilla
 
-## Learn More
+Las demas librerias son "core" del proyecto asique la explicacion es bastante a grandes razgos
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Next: Framework de react que utilizo para construir casi todas las apps que hago, sus ventajas son SSR, que viene acompañado de un mejor SEO, funciona out of the box para muchas cosas como el postcss de tailwindcss y tiene una estructura de carpetas muy ordenada
+- Typescript: previene errores de tipado, autocompletado para las props de los componentes errores en build time en vez de al momento de correr la aplicacion
+- TailwindCSS: permite una maquetacion muy rapida
+- Eslint y prettier: Codigo mas ordenado. En el caso de eslint utilice la configuracion de airbnb
+- Jest y react testing library: Permite hacer test unitarios, son las librerias mas utilizadas para este fin.
