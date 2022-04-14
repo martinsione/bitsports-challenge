@@ -39,6 +39,7 @@ export default function Home() {
       {isError && <ErrorMessage />}
       {people && (
         <InfiniteScroll
+          className="mx-auto max-w-4xl"
           hasMore={hasNextPage || isLoading}
           loadMore={() => fetchNextPage()}
           loader={<LoadingMessage key={0} />}

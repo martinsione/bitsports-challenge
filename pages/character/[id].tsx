@@ -31,7 +31,7 @@ export default function Character() {
       {isError && <ErrorMessage />}
       {isLoading && <LoadingMessage />}
       {character && (
-        <div className="px-6">
+        <div className="mx-auto max-w-4xl px-6">
           <div className="capitalize">
             <p className="mt-6 text-[17px] font-bold text-[#333333] dark:text-gray-100">
               General Information
