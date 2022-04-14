@@ -2,6 +2,7 @@ import type { CharacterDetail } from "types";
 
 import { useQuery } from "react-query";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 import Nav from "components/Nav";
 import LoadingMessage from "components/LoadingMessage";
@@ -21,6 +22,11 @@ export default function Character() {
 
   return (
     <>
+      {character?.name && (
+        <Head>
+          <title>{character.name}</title>
+        </Head>
+      )}
       <Nav showHome label={character?.name} />
       {isError && <ErrorMessage />}
       {isLoading && <LoadingMessage />}
