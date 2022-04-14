@@ -11,14 +11,17 @@
     "lint:fix": "next lint --fix"
   },
   "dependencies": {
+    "@types/react-infinite-scroller": "1.2.3",
     "next": "12.1.5",
-    "react": "18.0.0",
-    "react-dom": "18.0.0"
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-infinite-scroller": "1.2.6",
+    "react-query": "3.34.19"
   },
   "devDependencies": {
     "@types/node": "17.0.23",
-    "@types/react": "18.0.4",
-    "@types/react-dom": "18.0.0",
+    "@types/react": "17.0.44",
+    "@types/react-dom": "17.0.15",
     "@typescript-eslint/eslint-plugin": "5.19.0",
     "@typescript-eslint/parser": "5.19.0",
     "autoprefixer": "10.4.4",

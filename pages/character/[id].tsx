@@ -1,9 +1,10 @@
 import type { CharacterDetail } from "types";
 
-import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 import { useRouter } from "next/router";
 
 import Nav from "components/Nav";
+import LoadingMessage from "components/LoadingMessage";
 import ErrorMessage from "components/ErrorMessage";
 import CharacterDetailBadge from "components/CharacterDetailBadge";
 import { getCharacter } from "api/fetchData";
@@ -11,33 +12,19 @@ import { getCharacter } from "api/fetchData";
 export default function Character() {
   const router = useRouter();
   const id = Number(router.query.id?.toString());
-  const [character, setCharacter] = useState<null | "Error" | CharacterDetail>(
-    null
-  );
 
-  useEffect(() => {
-    if (id) {
-      getCharacter(id)
-        .then((data) => setCharacter(data))
-        .catch(() => setCharacter("Error"));
-    }
-  }, [id]);
-
-  if (character === "Error") {
-    return (
-      <>
-        <Nav showHome />
-        <div className="flex justify-center">
-          <ErrorMessage />
-        </div>
-      </>
-    );
-  }
+  const {
+    data: character,
+    isLoading,
+    isError,
+  } = useQuery<CharacterDetail>(["character", id], () => getCharacter(id));
 
   return (
     <>
       <Nav showHome label={character?.name} />
-      {character ? (
+      {isError && <ErrorMessage />}
+      {isLoading && <LoadingMessage />}
+      {character && (
         <div className="px-6">
           <div className="capitalize">
             <p className="mt-6 text-[17px] font-bold text-[#333333]">
@@ -63,15 +50,11 @@ export default function Character() {
           {!!character.vehicles.length && (
             <div className="mt-6 font-bold text-[#333333]">
               <p className="text-[17px] font-bold text-[#333333]">Vehicles</p>
-              {character.vehicles.map((vehicle) => (
+              {character.vehicles.map((vehicle: string) => (
                 <CharacterDetailBadge key={vehicle} label={vehicle} />
               ))}
             </div>
           )}
-        </div>
-      ) : (
-        <div className="flex items-center justify-center gap-4">
-          <p className="text-[17px] font-bold text-[#828282]">Loading</p>
         </div>
       )}
     </>

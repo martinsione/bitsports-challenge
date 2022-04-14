@@ -1,6 +1,7 @@
 import type { Character } from "types";
 
-import { useState, useEffect } from "react";
+import { useInfiniteQuery } from "react-query";
+import InfiniteScroll from "react-infinite-scroller";
 import Link from "next/link";
 
 import People from "components/People";
@@ -10,50 +11,54 @@ import ErrorMessage from "components/ErrorMessage";
 import { getCharacters } from "api/fetchData";
 
 export default function Home() {
-  const [people, setPeople] = useState<null | "Error" | Character[]>(null);
+  const { data, fetchNextPage, hasNextPage, isError, isLoading } =
+    useInfiniteQuery(
+      "people",
+      ({ pageParam = 1 }) => getCharacters(pageParam),
+      {
+        refetchIntervalInBackground: true,
+        refetchInterval: 1000,
+        getNextPageParam: (lastPage) => {
+          if (lastPage?.next) {
+            return Number(lastPage.next.split("=")[1]);
+          }
+          return false;
+        },
+      }
+    );
 
-  useEffect(() => {
-    getCharacters()
-      .then((data) => setPeople(data))
-      .catch(() => setPeople("Error"));
-  }, []);
+  const people =
+    data?.pages.reduce((prevData, page) => prevData.concat(page.results), []) ??
+    [];
 
   const getCharacterId = (url: string) => Number(url.split("/").slice(-2)[0]);
-
-  if (people === "Error") {
-    return (
-      <>
-        <Nav />
-        <div className="flex justify-center">
-          <ErrorMessage />
-        </div>
-      </>
-    );
-  }
 
   return (
     <>
       <Nav />
-
-      {people ? (
-        people.map((character) => (
-          <Link
-            key={character.name}
-            href={`/character/${getCharacterId(character.url)}`}
-          >
-            <a>
-              <People
-                homeworld={character.homeworld}
-                name={character.name}
-                species={character.species}
-              />
-            </a>
-          </Link>
-        ))
-      ) : (
-        <div className="flex justify-center">
-          <LoadingMessage />
-        </div>
+      {isError && <ErrorMessage />}
+      {people && (
+        <InfiniteScroll
+          hasMore={hasNextPage || isLoading}
+          loadMore={() => fetchNextPage()}
+          loader={<LoadingMessage key={0} />}
+          pageStart={1}
+        >
+          {people.map((character: Character) => (
+            <Link
+              key={character.name}
+              href={`/character/${getCharacterId(character.url)}`}
+            >
+              <a>
+                <People
+                  homeworld={character.homeworld}
+                  name={character.name}
+                  species={character.species}
+                />
+              </a>
+            </Link>
+          ))}
+        </InfiniteScroll>
       )}
     </>
   );

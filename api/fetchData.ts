@@ -1,10 +1,10 @@
 import type { Character } from "types";
 
-async function getPeople() {
+async function getPeople(page = 1) {
   try {
-    const response = await fetch(`http://swapi.dev/api/people`);
+    const response = await fetch(`http://swapi.dev/api/people?page=${page}`);
     const data = await response.json();
-    return data.results;
+    return data;
   } catch (err) {
     throw new Error("Error fetching people");
   }
@@ -36,17 +36,20 @@ async function getSpecies(characters: Character[]) {
   return species;
 }
 
-export async function getCharacters() {
-  const people = await getPeople();
+export async function getCharacters(page: number) {
+  const people = await getPeople(page);
 
-  return Promise.all([getHomeworld(people), getSpecies(people)])
-    .then(([homeworlds, species]) =>
-      people.map((character: Character, index: number) => ({
-        ...character,
-        homeworld: homeworlds[index],
-        species: species[index],
-      }))
-    )
+  return Promise.all([getHomeworld(people.results), getSpecies(people.results)])
+    .then(([homeworlds, species]) => {
+      people.results = people.results.map(
+        (character: Character, index: number) => ({
+          ...character,
+          homeworld: homeworlds[index],
+          species: species[index],
+        })
+      );
+      return people;
+    })
     .catch((err) => err);
 }
 
