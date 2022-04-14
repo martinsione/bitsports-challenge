@@ -4,7 +4,7 @@ interface Props {
 }
 export default function CharacterDetailBadge({ label, value }: Props) {
   return (
-    <div className="-mr-6 flex justify-between border-b py-4 text-[17px]">
+    <div className="-mr-6 flex justify-between border-b py-4 text-[17px] dark:border-b-neutral-700">
       <p className="font-bold text-[#828282]">{label}</p>
       {value && <p className="mr-6 font-bold">{value}</p>}
     </div>
